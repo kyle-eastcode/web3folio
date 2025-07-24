@@ -32,9 +32,10 @@ export default function RootLayout({
       >
         <ContextProvider>
           <Navbar />
-          <div className="ml-0 md:ml-52" suppressHydrationWarning>
+          {/* <div className="ml-0 md:ml-64" suppressHydrationWarning> */}
+          <main className="pl-0 md:pl-64 pt-19 min-h-screen" suppressHydrationWarning>
             {children}
-          </div>
+          </main>
         </ContextProvider>
       </body>
     </html>

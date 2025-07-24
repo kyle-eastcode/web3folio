@@ -1,0 +1,1 @@
+export type WalletType = 'UNKNOWN' | 'EVM' | 'SOLANA' | 'SUI';

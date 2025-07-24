@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "clean": "rm -rf ./.next",
+    "purge": "rm -rf ./.next ./node_modules ./package-lock.json ./yarn.lock ./pnpm-lock.yaml",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -11,12 +13,15 @@
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-dropdown-menu": "^2.1.15",
+    "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-navigation-menu": "^1.2.13",
     "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-slot": "^1.2.3",
-    "@solana/wallet-adapter-wallets": "^0.19.37",
+    "@radix-ui/react-toggle": "^1.1.9",
+    "@radix-ui/react-toggle-group": "^1.1.10",
     "@t3-oss/env-nextjs": "^0.13.8",
-    "cardano-wallet-js": "^1.4.0",
+    "@tanstack/react-query": "^5.83.0",
+    "@tanstack/react-table": "^8.21.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -26,11 +31,9 @@
     "next-themes": "^0.4.6",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "ripple-lib": "^1.10.1",
-    "solana-web3": "^0.0.1-security",
+    "recharts": "2.15.4",
+    "server-only": "^0.0.1",
     "tailwind-merge": "^3.3.1",
-    "tronweb": "^6.0.3",
-    "wagmi": "^2.16.0",
     "zod": "^4.0.5"
   },
   "devDependencies": {

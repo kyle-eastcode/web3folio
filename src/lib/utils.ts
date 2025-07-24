@@ -1,6 +1,6 @@
+import { WalletType } from "@/types";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { WalletDetectionResult, WalletType } from "@/types/wallets"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -11,14 +11,19 @@ export function cn(...inputs: ClassValue[]) {
  * @param address The wallet address to validate
  * @returns An object containing the detected wallet type and validation status
  */
-export function detectWalletType(address: string): WalletDetectionResult {
+export function detectWalletType(address: string): {
+  type: WalletType;
+  address: string;
+  isValid: boolean;
+  error?: string | undefined;
+} {
   // Input validation
   if (!address || typeof address !== 'string') {
     return {
-      type: WalletType.UNKNOWN,
+      type: "UNKNOWN",
       address,
       isValid: false,
-      error: 'Invalid input: Address must be a non-empty string'
+      error: 'Invalid input'
     };
   }
 
@@ -28,7 +33,7 @@ export function detectWalletType(address: string): WalletDetectionResult {
   // Check EVM format (42 characters, starts with 0x)
   if (/^0x[a-fA-F0-9]{40}$/.test(trimmedAddress)) {
     return {
-      type: WalletType.EVM,
+      type: "EVM",
       address,
       isValid: true
     };
@@ -37,25 +42,26 @@ export function detectWalletType(address: string): WalletDetectionResult {
   // Check Solana format (44 characters, base58 encoded)
   if (/^[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{44}$/.test(trimmedAddress)) {
     return {
-      type: WalletType.SOLANA,
+      type: "SOLANA",
       address,
       isValid: true
     };
   }
 
   // Check Sui format (typically 64 hexadecimal characters)
-  if (/^[0-9a-fA-F]{64}$/.test(trimmedAddress)) {
+  // if (/^[0-9a-fA-F]{64}$/.test(trimmedAddress)) {
+  if (/^(0x)?[0-9a-fA-F]{62}$/.test(trimmedAddress)) {
     return {
-      type: WalletType.SUI,
+      type: "SUI",
       address,
       isValid: true
     };
   }
 
   return {
-    type: WalletType.UNKNOWN,
+    type: "UNKNOWN",
     isValid: false,
     address,
-    error: 'Unable to determine wallet type based on address format'
+    error: 'Unable to determine wallet type'
   };
 }

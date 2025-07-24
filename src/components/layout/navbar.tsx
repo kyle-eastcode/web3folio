@@ -16,12 +16,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-
 import { Button } from "../ui/button";
-import {
-  CommandDialog,
-  CommandInput,
-} from "../ui/command";
 import { BrandingLogo } from "../branding-logo";
 import { ThemeSwitcher } from "../theme-switcher";
 import { SearchBar } from "../search-bar";
@@ -45,8 +40,8 @@ export function Navbar() {
     <div className="">
 
       {/* Sidebar */}
-      <aside id="logo-sidebar" className={cn("fixed bg-white dark:bg-gray-900 top-0 left-0 z-40 w-62 h-screen transition-transform", navbarOpen ? "" : "-translate-x-full md:translate-x-0")} aria-label="Sidebar">
-        <nav className="flex flex-col h-full overflow-y-auto border-gray-400 border-r-[1px] w-62">
+      <aside id="logo-sidebar" className={cn("fixed bg-white dark:bg-gray-900 top-0 left-0 z-40 w-64 h-screen transition-transform", navbarOpen ? "" : "-translate-x-full md:translate-x-0")} aria-label="Sidebar">
+        <nav className="flex flex-col h-full overflow-y-auto border-gray-400 border-r-[1px] w-64">
           <div className="flex justify-between items-center pr-4">
             <Link href="/" className="p-4">
               <BrandingLogo />
@@ -86,7 +81,7 @@ export function Navbar() {
 
       {/* Navbar */}
       <div className="fixed w-full bg-white dark:bg-gray-900 z-30">
-        <div className="flex justify-between items-center p-4 md:ml-62 min-h-[60px] border-gray-400 border-b-[1px]">
+        <div className="flex justify-between items-center p-5 md:ml-64 min-h-[60px] border-gray-400 border-b-[1px]">
           <div
             className="flex md:hidden justify-center items-center text-gray-500 hover:cursor-pointer ease-in-out duration-200"
             onClick={() => setNavbarOpen(!navbarOpen)}
@@ -94,9 +89,9 @@ export function Navbar() {
             <span className="sr-only">Open sidebar</span>
             <MenuIcon size={24} />
           </div>
-          <div className="hidden md:block text-sm">{currentLink.name}</div>
+          <div className="hidden md:block text-sm w-full max-w-[100px]">{currentLink.name}</div>
 
-          <SearchBar open={searchOpen} />
+          <SearchBar open={searchOpen} setOpen={setSearchOpen} />
 
           <div className="flex items-center gap-x-8 md:gap-x-4">
             <div
@@ -130,78 +125,77 @@ export function Navbar() {
         </div>
       </div>
 
-  
     </div>
   );
 
-  return (
-    <div className="w-full flex">
-      <aside className="fixed top-0 left-0 z-40 w-62 h-screen transition-transform -translate-x-full md:translate-x-0">
-        <nav className="flex flex-col h-full overflow-y-auto border-gray-800 border-r-[1px]">
-          <Link href="/" className="p-4">
-            <BrandingLogo />
-          </Link>
+  // return (
+  //   <div className="w-full flex">
+  //     <aside className="fixed top-0 left-0 z-40 w-62 h-screen transition-transform -translate-x-full md:translate-x-0">
+  //       <nav className="flex flex-col h-full overflow-y-auto border-gray-800 border-r-[1px]">
+  //         <Link href="/" className="p-4">
+  //           <BrandingLogo />
+  //         </Link>
 
-          <div className="flex flex-1 flex-col py-2">
-            <ul className="flex-1">
-              {navbarLinks.primary.map((link, i) => (
-                <NavbarLinkItem
-                  active={currentLink.href === link.href}
-                  link={link}
-                  key={`navbar-primary-link-${i + 1}`}
-                />
-              ))}
-            </ul>
-            <div className="bg-gray-800 w-full h-[1px]" />
-            <ul className="flex flex-col">
-              {navbarLinks.secondary.map((link, i) => (
-                <NavbarLinkItem
-                  active={currentLink.href === link.href}
-                  link={link}
-                  key={`navbar-secondary-link-${i + 1}`}
-                />
-              ))}
-            </ul>
-          </div>
-        </nav>
-      </aside>
+  //         <div className="flex flex-1 flex-col py-2">
+  //           <ul className="flex-1">
+  //             {navbarLinks.primary.map((link, i) => (
+  //               <NavbarLinkItem
+  //                 active={currentLink.href === link.href}
+  //                 link={link}
+  //                 key={`navbar-primary-link-${i + 1}`}
+  //               />
+  //             ))}
+  //           </ul>
+  //           <div className="bg-gray-800 w-full h-[1px]" />
+  //           <ul className="flex flex-col">
+  //             {navbarLinks.secondary.map((link, i) => (
+  //               <NavbarLinkItem
+  //                 active={currentLink.href === link.href}
+  //                 link={link}
+  //                 key={`navbar-secondary-link-${i + 1}`}
+  //               />
+  //             ))}
+  //           </ul>
+  //         </div>
+  //       </nav>
+  //     </aside>
 
-      <div className="bg-white dark:bg-black flex items-center justify-between p-4 w-full md:ml-52 border-b-gray-800 border-b-[1px]">
-        <div className="hidden md:block text-sm">{currentLink.name}</div>
-        <MenuIcon className="md:hidden" onClick={() => setNavbarOpen(!navbarOpen)} />
-        <div>
-          <div
-            className="hidden md:flex justify-between items-center min-w-[200px] bg-gray-200 dark:bg-gray-800 border-[1px] border-gray-300 dark:border-gray-700 p-2 rounded-md gap-4"
-            onClick={() => setSearchOpen(!searchOpen)}
-          >
-            <SearchIcon size={18} />
-            <div className="flex-1">
-              <p className="text-sm text-gray-500">
-                Search Wallet or Domain
-              </p>
-            </div>
-            <p className="text-sm text-gray-500">
-              <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-                <span className="text-xs">⌘</span>K
-              </kbd>
-            </p>
-          </div>
-          <CommandDialog open={searchOpen} onOpenChange={setSearchOpen}>
-            <CommandInput placeholder="Search a Wallet by ID or Domain" />
-          </CommandDialog>
-        </div>
-        <div className="flex items-center gap-x-8 md:gap-x-4">
-          <div className="flex items-center md:hidden">
-            <SearchIcon onClick={() => setSearchOpen(!searchOpen)} size={20} />
-          </div>
+  //     <div className="bg-white dark:bg-black flex items-center justify-between p-4 w-full md:ml-64 border-b-gray-800 border-b-[1px]">
+  //       <div className="hidden md:block text-sm">{currentLink.name}</div>
+  //       <MenuIcon className="md:hidden" onClick={() => setNavbarOpen(!navbarOpen)} />
+  //       <div>
+  //         <div
+  //           className="hidden md:flex justify-between items-center min-w-[200px] bg-gray-200 dark:bg-gray-800 border-[1px] border-gray-300 dark:border-gray-700 p-2 rounded-md gap-4"
+  //           onClick={() => setSearchOpen(!searchOpen)}
+  //         >
+  //           <SearchIcon size={18} />
+  //           <div className="flex-1">
+  //             <p className="text-sm text-gray-500">
+  //               Search Wallet or Domain
+  //             </p>
+  //           </div>
+  //           <p className="text-sm text-gray-500">
+  //             <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+  //               <span className="text-xs">⌘</span>K
+  //             </kbd>
+  //           </p>
+  //         </div>
+  //         <CommandDialog open={searchOpen} onOpenChange={setSearchOpen}>
+  //           <CommandInput placeholder="Search a Wallet by ID or Domain" />
+  //         </CommandDialog>
+  //       </div>
+  //       <div className="flex items-center gap-x-8 md:gap-x-4">
+  //         <div className="flex items-center md:hidden">
+  //           <SearchIcon onClick={() => setSearchOpen(!searchOpen)} size={20} />
+  //         </div>
 
-          <Button variant="secondary">
-            Connect Wallet
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
+  //         <Button variant="secondary">
+  //           Connect Wallet
+  //         </Button>
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
 }
 
 function NavbarLinkItem({
