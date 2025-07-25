@@ -1,6 +1,6 @@
-import { WatchListSection } from "@/components/watch-list/waitch-list-section";
-import { TopPerformersSection } from "@/components/top-performers/top-performers-section";
-import { WalletOverviewSection } from "@/components/wallet-overview/wallet-overview-section";
+import { WatchListSection } from "@/components/containers/watch-list/waitch-list-section";
+import { TopPerformersSection } from "@/components/containers/top-performers/top-performers-section";
+import { WalletOverviewSection } from "@/components/containers/wallet-overview/wallet-overview-section";
 
 export default function Home() {
   return (

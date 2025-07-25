@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
 
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "../ui/chart";
-import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
-import { Button } from "../ui/button";
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Button } from "@/components/ui/button";
 
 const chartData = [
   { date: "2024-04-01", desktop: 222, mobile: 150 },

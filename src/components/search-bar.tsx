@@ -1,12 +1,14 @@
 'use client';
 
 import { ChangeEvent, Dispatch, KeyboardEvent, SetStateAction, useEffect, useState } from "react";
-import { SearchIcon, XCircle, XIcon } from "lucide-react";
+import { Loader, SearchIcon, XCircle, XIcon } from "lucide-react";
 
-import { cn, detectWalletType } from "@/lib/utils";
 import { Command, CommandDialog, CommandInput, CommandEmpty } from "./ui/command";
-import { setSearchAddress } from "@/server/actions/search-address-cookie";
+import { SupportedChain, WalletBalance } from "@/types";
+import { detectChain, DetectChainResults, searchWalletAddress } from "@/lib/wallets";
+import { shortenAddress } from "@/lib/utils";
 import { Button } from "./ui/button";
+import Image from "next/image";
 
 export function SearchBar({
   open = false,
@@ -15,19 +17,13 @@ export function SearchBar({
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) {
+  const [search, setSearch] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   const [searchResults, setSearchResults] = useState<{
-    type: string;
-    address: string;
-    isValid: boolean;
-    error?: string | undefined;
-    submitted: boolean;
-  }>({
-    type: "UNKNOWN",
-    address: '',
-    isValid: false,
-    error: undefined,
-    submitted: false,
-  });
+    address: string | null;
+    chains: SupportedChain[] | null;
+  } | null>(null);
 
   // useEffect(() => {
   //   const down = (e: KeyboardEvent) => {
@@ -46,29 +42,34 @@ export function SearchBar({
     setOpen(open);
   }, [open]);
 
+  useEffect(() => {
+    if (search.length == 0) {
+      setError(null);
+      setSearchResults(null);
+    }
+  }, [search]);
+
   async function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Enter") {
       event.preventDefault();
-
-      const results = detectWalletType(searchResults.address);
-      setSearchResults({
-        ...results,
-        submitted: true,
-      });
-
-      if (results && results.isValid) {
-        await setSearchAddress(results.address);
-        window.location.reload();
+      
+      try {
+        // detect the provided wallet address
+        const { success, chains, address } = await detectChain(search);
+        if (!success || !chains || !address) {
+          setError('No results found');
+        } else {
+          setSearchResults({
+            address,
+            chains,
+          });
+        }
+      } catch (error) {
+        setError('Something went wrong');
+      } finally {
+        setLoading(false);
       }
     }
-  }
-
-  function handleOnChange(address: string) {
-    setSearchResults({
-      ...searchResults,
-      address,
-      submitted: false
-    })
   }
 
   return (
@@ -93,31 +94,54 @@ export function SearchBar({
       <Command>
         <CommandDialog open={open} onOpenChange={() => {
           if (open) {
-            setSearchResults({
-              type: 'UNKNOWN',
-              address: '',
-              isValid: false,
-              submitted: false,
-            })
+            setSearch("");
             setOpen(false);
           }
         }}>
           <CommandInput
-            value={searchResults.address}
+            value={search}
             onKeyDown={handleKeyDown}
-            onValueChange={handleOnChange}
+            onValueChange={(value) => {
+              setSearch(value)
+            }}
             placeholder="Search a Wallet by ID or Domain"
           />
-          {searchResults.submitted && searchResults.error && (
+          {loading && (
             <CommandEmpty className="flex justify-center items-center p-3">
-              No data found
+              <div className="flex gap-x-2">
+                <Loader className="spinner" />
+                <div>Loading...</div>
+              </div>
             </CommandEmpty>
           )}
-          {/* {searchResults.submitted && searchResults.isValid && (
+          {error && (
             <CommandEmpty className="flex justify-center items-center p-3">
-              Searching...
+              {error}
             </CommandEmpty>
-          )} */}
+          )}
+          {!error && searchResults && searchResults.chains && searchResults.chains.length > 0 && (
+            <div className="flex flex-col justify-center items-center w-full">
+              <span className="text-lg text-gray-500 mt-2 mb-3">Please select a network</span>
+              {searchResults.chains.map(chain => (
+                <CommandEmpty key={`search-results-chain-${chain.id}`} className="flex justify-center items-center p-3 w-full">
+                  <Button
+                    variant="outline"
+                    className="min-w-[240px]"
+                  >
+                    <div className="flex justify-center items-center gap-x-2">
+                      <Image
+                        src={`/images/chains/${chain.name.toLowerCase()}.svg`}
+                        alt={chain.name}
+                        height={14}
+                        width={14}
+                      />
+                      {chain.name}
+                    </div>
+                  </Button>
+               </CommandEmpty>
+              ))}
+            </div>
+          )}
         </CommandDialog>
       </Command>
     </div>

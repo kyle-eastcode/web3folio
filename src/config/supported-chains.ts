@@ -1,0 +1,60 @@
+import { SupportedChain } from "@/types";
+
+export const supportedChains: SupportedChain[] = [
+  {
+    id: 1,
+    name: 'Ethereum',
+    network: 'eth-mainnet',
+    symbol: 'ETH',
+    explorer: 'https://etherscan.io',
+    isEvm: true,
+  },
+  {
+    id: 137,
+    name: 'Polygon',
+    network: 'polygon-mainnet',
+    symbol: 'MATIC',
+    explorer: '',
+    isEvm: true,
+  },
+  {
+    id: 250,
+    name: 'Fantom',
+    network: 'fantom-mainnet',
+    symbol: 'FTM',
+    explorer: '',
+    isEvm: true,
+  },
+  {
+    id: 0,
+    name: 'Solana',
+    network: 'solana-mainnet',
+    symbol: 'SOL',
+    explorer: '',
+    isEvm: false,
+  },
+  {
+    id: 8453,
+    name: 'Base',
+    network: 'base-mainnet',
+    symbol: 'ETH',
+    explorer: '',
+    isEvm: true,
+  },
+  {
+    id: 43114,
+    name: 'Avalanche',
+    network: 'avax-mainnet',
+    symbol: 'AVAX',
+    explorer: '',
+    isEvm: true,
+  },
+  {
+    id: 56,
+    name: 'BNB Smart Chain',
+    network: 'bnb-mainnet',
+    symbol: 'BNB',
+    explorer: '',
+    isEvm: true, 
+  },
+]

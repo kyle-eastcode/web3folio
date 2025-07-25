@@ -1,6 +1,5 @@
-import { FacebookIcon, HistoryIcon, HomeIcon, PictureInPictureIcon, PieChartIcon, SettingsIcon } from "lucide-react";
-
 import { NavbarLink } from "@/types";
+import { FacebookIcon, HistoryIcon, HomeIcon, PictureInPictureIcon, PieChartIcon, SettingsIcon } from "lucide-react";
 
 export const navbarLinks: {
   primary: NavbarLink[],
@@ -11,36 +10,36 @@ export const navbarLinks: {
   {
     name: 'Home',
     href: '/',
-    icon: HomeIcon
+    icon: () => <HomeIcon />,
   },
   {
     name: 'Portfolio',
     href: '/portfolio',
-    icon: PieChartIcon
+    icon: () => <PieChartIcon />
   },
   {
     name: 'NFTs',
     href: '/nfts',
-    icon: PictureInPictureIcon
+    icon: () => <PictureInPictureIcon />
   },
   {
     name: 'Transactions',
     href: '/transactions',
-    icon: HistoryIcon
+    icon: () => <HistoryIcon />
   },
   ],
   secondary: [
     {
       name: 'Settings',
       href: '/settings',
-      icon: SettingsIcon  
+      icon: () => <SettingsIcon />  
     },
   ],
   socials: [
     {
       name: 'Facebook',
       href: 'https://facebook.com',
-      icon: FacebookIcon
+      icon: () => <FacebookIcon />
     }
   ]
 }

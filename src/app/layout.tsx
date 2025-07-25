@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import { ContextProvider } from "@/components/providers/context-provider";
+import "./globals.css"
+import { ContextProvider } from "@/components/context/context-provider";
 import { Navbar } from "@/components/layout/navbar";
 
 const geistSans = Geist({
@@ -32,10 +32,9 @@ export default function RootLayout({
       >
         <ContextProvider>
           <Navbar />
-          {/* <div className="ml-0 md:ml-64" suppressHydrationWarning> */}
-          <main className="pl-0 md:pl-64 pt-19 min-h-screen" suppressHydrationWarning>
+          <div className="pl-0 md:pl-64 pt-19 min-h-screen" suppressHydrationWarning>
             {children}
-          </main>
+          </div>
         </ContextProvider>
       </body>
     </html>
